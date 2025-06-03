@@ -1,4 +1,4 @@
-package usermanagement.dao;
+package com.example.usermanagement.dao;
 // package com.example.usermanagement.dao;
 
 // import java.net.ConnectException;

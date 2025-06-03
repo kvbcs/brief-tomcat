@@ -1,4 +1,5 @@
-package usermanagement.model;
+package com.example.usermanagement.model;
+
 
 import java.time.LocalDate;
 
