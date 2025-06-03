@@ -1,3 +1,4 @@
+package com.example.usermanagement.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -21,6 +22,7 @@ public class DatabaseManager {
 Statement stmt = connection.createStatement();
 stmt.execute(sql);
 System.out.println("📦 Table 'users' créée (ou déjà existante).");
+connection.close();
             return connection;
         } catch (SQLException e) {
             System.err.println("❌ Erreur de connexion : " + e.getMessage());
