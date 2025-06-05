@@ -1,0 +1,5 @@
+com\example\usermanagement\model\User.class
+com\example\Main.class
+com\example\usermanagement\dao\UserDAO.class
+com\example\usermanagement\dao\DatabaseManager.class
+com\example\usermanagement\controller\UserServlet.class
