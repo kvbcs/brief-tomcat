@@ -8,12 +8,11 @@ import com.example.usermanagement.dao.UserDAO;
 import com.example.usermanagement.model.User;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/users") // Cette URL déclenchera le servlet
+//@WebServlet("/users")
 public class UserServlet extends HttpServlet {
     private UserDAO userDAO;
 
@@ -23,26 +22,35 @@ public class UserServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Récupère la liste d'utilisateurs et l'envoie à la JSP
-        List<User> users = userDAO.listAll();
-        request.setAttribute("users", users); // Envoie la liste à la JSP
-        request.getRequestDispatcher("/listUsers.jsp").forward(request, response); // Redirection vers la vue
-    }
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    System.out.println(">>> POST reçu dans UserServlet");
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Récupère les données du formulaire
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
-        LocalDate dateNaissance = LocalDate.parse(request.getParameter("dateNaissance"));
+    String name = request.getParameter("name");
+    String email = request.getParameter("email");
+    String phone = request.getParameter("phone");
+    String date = request.getParameter("dateNaissance");
 
-        User newUser = new User(0, name, email, phone, dateNaissance);
-        userDAO.add(newUser); // Ajoute à la base
+    System.out.println("Nom: " + name + ", Email: " + email + ", Phone: " + phone + ", Date: " + date);
 
-        response.sendRedirect("users"); // Recharge la liste
-    }
+    LocalDate dateNaissance = LocalDate.parse(date);
+
+    User newUser = new User(0, name, email, phone, dateNaissance);
+    userDAO.add(newUser);
+
+    response.sendRedirect("users"); // Recharge la liste
+}
+
+@Override
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    System.out.println(">>> GET sur /users");
+
+    List<User> users = userDAO.listAll();
+    System.out.println("Utilisateurs trouvés: " + users.size());
+
+    request.setAttribute("users", users);
+    request.getRequestDispatcher("/listUsers.jsp").forward(request, response);
+}
+
 }

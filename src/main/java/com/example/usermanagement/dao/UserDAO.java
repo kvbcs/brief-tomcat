@@ -13,7 +13,7 @@ import java.util.List;
 import com.example.usermanagement.model.User;
 
 public class UserDAO {
-    private final String url = "jdbc:sqlite:src/main/resources/db/users.db";
+    private final String url = "jdbc:sqlite:users.db";
 
     public UserDAO() {
         try (Connection conn = DriverManager.getConnection(url);
@@ -39,14 +39,15 @@ public class UserDAO {
             while (rs.next()) {
                 // Récupère chaque utilisateur de la base
                 User u = new User(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getString("email"),
-                    rs.getString("phone"),
-                    LocalDate.parse(rs.getString("dateNaissance"))
-                );
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        LocalDate.parse(rs.getString("dateNaissance")));
                 users.add(u);
             }
+            System.out.println("[DAO] Utilisateurs trouvés : " + users.size());
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,6 +65,8 @@ public class UserDAO {
             pstmt.setString(3, u.getPhone());
             pstmt.setString(4, u.getDateNaissance().toString());
             pstmt.executeUpdate();
+            System.out.println("[DAO] Utilisateur ajouté : " + u.getName());
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
